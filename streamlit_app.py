@@ -363,45 +363,45 @@ if selected == "Extract":
                     st.error("QR code scanning is not supported in this environment.")
                 else:
                     with st.spinner("🔍 Decoding QR code and extracting text..."):
-                    # Decode QR
-                    url, qr_error = decode_qr_code(image)
-                    
-                    if qr_error:
-                        st.markdown(f"""
-                        <div class='error-box'>
-                            <strong>❌ Error:</strong> {qr_error}
-                        </div>
-                        """, unsafe_allow_html=True)
-                    else:
-                        st.info(f"🔗 Decoded URL: {url}")
+                        # Decode QR
+                        url, qr_error = decode_qr_code(image)
                         
-                        # Extract text
-                        text, extract_error = extract_text_from_url(url)
-                        
-                        if extract_error:
+                        if qr_error:
                             st.markdown(f"""
                             <div class='error-box'>
-                                <strong>❌ Error:</strong> {extract_error}
+                                <strong>❌ Error:</strong> {qr_error}
                             </div>
                             """, unsafe_allow_html=True)
                         else:
-                            st.session_state.extracted_text = text
-                            st.session_state.current_url = url
+                            st.info(f"🔗 Decoded URL: {url}")
                             
-                            # Add to history
-                            st.session_state.extraction_history.append({
-                                'timestamp': datetime.now(),
-                                'url': url,
-                                'method': 'QR Code',
-                                'text_length': len(text)
-                            })
+                            # Extract text
+                            text, extract_error = extract_text_from_url(url)
                             
-                            st.markdown("""
-                            <div class='success-box'>
-                                <strong>✅ Success!</strong> QR code decoded and text extracted!
-                            </div>
-                            """, unsafe_allow_html=True)
-                            st.rerun()
+                            if extract_error:
+                                st.markdown(f"""
+                                <div class='error-box'>
+                                    <strong>❌ Error:</strong> {extract_error}
+                                </div>
+                                """, unsafe_allow_html=True)
+                            else:
+                                st.session_state.extracted_text = text
+                                st.session_state.current_url = url
+                                
+                                # Add to history
+                                st.session_state.extraction_history.append({
+                                    'timestamp': datetime.now(),
+                                    'url': url,
+                                    'method': 'QR Code',
+                                    'text_length': len(text)
+                                })
+                                
+                                st.markdown("""
+                                <div class='success-box'>
+                                    <strong>✅ Success!</strong> QR code decoded and text extracted!
+                                </div>
+                                """, unsafe_allow_html=True)
+                                st.rerun()
     
     # Display extracted text
     if st.session_state.extracted_text:
