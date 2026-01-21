@@ -145,19 +145,35 @@ st.markdown("""
         background: linear-gradient(180deg, #667eea 0%, #764ba2 100%) !important;
     }
     
+    /* Ensure the navigation container is also transparent */
+    [data-testid="stSidebarNav"] {
+        background-color: transparent !important;
+    }
+
     /* Ensure all text in sidebar is readable */
-    [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+    [data-testid="stSidebar"] .stMarkdown p, 
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] label {
         color: white !important;
     }
 
-    /* Target the option menu specifically */
+    /* Fix for the option menu background */
     .nav-link {
-        color: rgba(255, 255, 255, 0.8) !important;
+        background-color: transparent !important;
+        color: rgba(255, 255, 255, 0.7) !important;
     }
     
+    .nav-link:hover {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
     .nav-link.active {
         color: white !important;
         background-color: rgba(255, 255, 255, 0.2) !important;
+        font-weight: bold !important;
     }
 
     /* Hide Streamlit branding */
