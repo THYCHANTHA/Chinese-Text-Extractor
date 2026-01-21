@@ -4,11 +4,18 @@ from bs4 import BeautifulSoup
 import re
 import io
 from PIL import Image
-from pyzbar.pyzbar import decode
 import base64
 from datetime import datetime
 import json
 from streamlit_option_menu import option_menu
+
+# Try to import pyzbar, but make it optional
+try:
+    from pyzbar.pyzbar import decode
+    PYZBAR_AVAILABLE = True
+except ImportError:
+    PYZBAR_AVAILABLE = False
+    st.warning("⚠️ QR code scanning is not available. Please install system dependencies (libzbar0) to enable this feature.")
 
 # Page configuration
 st.set_page_config(
@@ -208,6 +215,8 @@ def extract_text_from_url(url):
 
 def decode_qr_code(image):
     """Decode QR code from image"""
+    if not PYZBAR_AVAILABLE:
+        return None, "QR code scanning is not available on this server. Please provide a URL directly."
     try:
         decoded_objects = decode(image)
         if decoded_objects:
@@ -349,8 +358,11 @@ if selected == "Extract":
             image = Image.open(uploaded_file)
             st.image(image, caption="Uploaded QR Code", use_container_width=True)
             
-            if st.button("🔓 Decode & Extract", use_container_width=True):
-                with st.spinner("🔍 Decoding QR code and extracting text..."):
+            if st.button("🔓 Decode & Extract", use_container_width=True, disabled=not PYZBAR_AVAILABLE):
+                if not PYZBAR_AVAILABLE:
+                    st.error("QR code scanning is not supported in this environment.")
+                else:
+                    with st.spinner("🔍 Decoding QR code and extracting text..."):
                     # Decode QR
                     url, qr_error = decode_qr_code(image)
                     
