@@ -140,11 +140,26 @@ st.markdown("""
         font-family: 'Courier New', monospace;
     }
     
-    /* Sidebar styling */
-    .css-1d391kg {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    /* Sidebar styling - much more stable selector */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%) !important;
     }
     
+    /* Ensure all text in sidebar is readable */
+    [data-testid="stSidebar"] .stMarkdown p, [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 {
+        color: white !important;
+    }
+
+    /* Target the option menu specifically */
+    .nav-link {
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .nav-link.active {
+        color: white !important;
+        background-color: rgba(255, 255, 255, 0.2) !important;
+    }
+
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
