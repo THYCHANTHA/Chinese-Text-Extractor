@@ -3,3 +3,6 @@ gunicorn
 requests
 beautifulsoup4
 Pillow
+pyzbar
+streamlit
+streamlit-option-menu
